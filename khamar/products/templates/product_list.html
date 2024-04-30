@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="container mt-4 text-center gy-3 mx-auto" style="color: black;">
+    <h2 class="display-4 text-black">Product List</h2>
+
+    <div class="row gy-4 text-white" style="border-radius: 30px; gap: 5px; align-items: center; color: black;">
+        <div class="col-md-3">
+            <h6 class="display-6 text-white">Category</h6>
+            <div class="d-flex flex-row h-100" style="gap: 5px; align-content: center;color: black;">
+                {% for category in categories %}
+                <a href="{% url 'category_wise_post' category.slug %}" class="btn btn-outline-light {% if category == selected_category %}active{% endif %} mb-2" style="color: black;"> <!-- Set text color to black -->
+                    {{ category.Name }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="row gy-4 mx-col-end-4">
+                {% for product in data %}
+                <div class="col-md-4 mb-4" style="border-radius: 20px; align-content: center;">
+                    <div class="card h-100 shadow-sm" style="border-radius: 25px;">
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.title }}" style="height: 200px; object-fit: cover;">
+                        <div class="card-body " style="font-size: 10px; border-radius: 25px;">
+                            <p class="text-success" style="font-size: 10px;">
+                                {% for category in product.category.all %}
+                                {{ category.Name }}{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            </p>
+                            <h5 class="card-title fw-link-light" style="font-size: 15px; color: black;">{{ product.title }}</h5> <!-- Set text color to black -->
+                            <!-- Set text color to black -->
+                            <p class="card-text fw-bold" style="font-size: 10px; font-weight: 500; color: black;"><strong></strong> {{ product.buying_price }}$</p> <!-- Set text color to black -->
+                            
+                            <div class="text-center">
+                                <button> <a href="{% url 'details_view' pk=product.id %}" class="btn btn-primary " style="font-size: 14px; color: white;">Details</a></button> <!-- Set text color to black -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

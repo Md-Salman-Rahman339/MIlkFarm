@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class='d-md-flex justify-content-center align-items-center bg-dark p-4'>
+   <div class='col-md-7 d-md-flex justify-content-center'>
+       <img src="{{ product.image.url }}" class="card-img-top" style='width: 90%;' alt="...">
+   </div>
+   
+    <div class="col-md-5 text-light">
+        <h2 class="text-primary text-center mb-3">Book Details</h2>
+        <p class=""><span class="text-secondary">Name:</span>  {{ product.title }}</p>
+        <p class=""><span class="text-secondary">Price: </span>{{ product.buying_price }}$</p>
+        {% comment %} <p class='text-secondary'>Description:</p>
+        <p class='mx-4'>{{ product.description }}</p> {% endcomment %}
+        <p class="text-primary">
+            {% for category in book.category.all %}
+                {{ category.Name }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </p>
+        
+
+        
+        {% if request.user.is_authenticated %}
+        <form method="post" action="{% url 'buy_product' product.id %}">
+            {% csrf_token %}
+            <input type="submit" name="buy_product" value="Buy Now" class="btn btn-primary w-50 m-5 mt-3">
+        </form>
+        {% endif %}
+    </div>
+  
+</div>
+
+<div class="card m-2">
+    <h5 class="p-3">Total Comments: {{ comments | length }}</h5>
+    {% for c in comments %}
+    <div class="card-body border m-2">
+        <p>{{ c.user.username }}</p>
+        <p>{{ c.comment }}</p>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="card m-2">
+    <div class="card-body">
+        <form method="post" action="{% url 'details_view' pk=product.id %}">
+            <h1>Add Comment</h1>
+            {% csrf_token %}
+            {{ comment_form | crispy }}
+
+            <button class="btn btn-warning">Submit</button>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

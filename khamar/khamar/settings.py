@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'author',
+    'transactions',
+    'products',
     "crispy_forms",
     "crispy_bootstrap5",
 ]
@@ -79,10 +81,21 @@ WSGI_APPLICATION = 'khamar.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "sample",
+        "USER": "root",
+        "PASSWORD":  "Zxc@20470",
+        "HOST": "127.0.0.1",
+        "PORT": "3306",
     }
 }
 
