@@ -8,7 +8,11 @@ from transactions.constants import DEPOSIT
 from transactions.forms import DepositForm
 from transactions.models import Transaction
 from django.template.loader import render_to_string
-
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.db import transaction
+from django.views.decorators.http import require_http_methods
 
 def send_transaction_email(user,amount,subject,template):
     message=render_to_string(template,{
@@ -60,10 +64,6 @@ class DepositMoneyView(TransactionCreateMixin):
             ]
         )
 
-        messages.success(
-            self.request,
-            f'{"{:,.2f}".format(float(amount))}$ was deposited to your account successfully'
-        )
-       
+        
         return super().form_valid(form)
 
